@@ -1,0 +1,23 @@
+version: "3.7"
+services:
+  calendso:
+    build: .
+    command: >
+      sh -c "npx prisma db push --preview-feature
+      && yarn dev"
+    ports:
+      - '3000:3000'
+      - '5555:5555'
+    labels:
+      - "traefik.backend=home"
+      - "traefik.docker.network=jitsi"
+      - "traefik.enable=true"
+      - "traefik.basic.port=3000"
+      - "traefik.basic.frontend.rule=Host:calander.jiggyjigs.me"
+    restart: always
+    networks:
+      jitsi:
+
+networks:
+  jitsi:
+    external: true
